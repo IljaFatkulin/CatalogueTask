@@ -15,55 +15,63 @@ use Magento\InventoryApi\Api\Data\SourceItemInterface;
 use Magento\InventoryApi\Api\Data\SourceItemInterfaceFactory;
 use Magento\InventoryApi\Api\SourceItemsSaveInterface;
 use Magento\Store\Model\StoreManagerInterface;
+
 class CreateNewProduct implements DataPatchInterface
 {
-    protected State $appState;
-    protected ProductInterfaceFactory $productInterfaceFactory;
-    protected ProductRepositoryInterface $productRepository;
-    protected EavSetup $eavSetup;
-    protected CategoryLinkManagementInterface $categoryLink;
-    protected StoreManagerInterface $storeManager;
-
-    protected SourceItemInterfaceFactory $sourceItemFactory;
-    protected SourceItemsSaveInterface $sourceItemsSaveInterface;
-
+    /**
+     * @var array
+     */
     protected array $sourceItems = [];
+
+    /**
+     * @param State $appState
+     * @param ProductInterfaceFactory $productInterfaceFactory
+     * @param ProductRepositoryInterface $productRepository
+     * @param EavSetup $eavSetup
+     * @param CategoryLinkManagementInterface $categoryLink
+     * @param StoreManagerInterface $storeManager
+     * @param SourceItemInterfaceFactory $sourceItemFactory
+     * @param SourceItemsSaveInterface $sourceItemsSaveInterface
+     */
     public function __construct(
-        State $appState,
-        ProductInterfaceFactory $productInterfaceFactory,
-        ProductRepositoryInterface $productRepository,
-        EavSetup $eavSetup,
-        CategoryLinkManagementInterface $categoryLink,
-        StoreManagerInterface $storeManager,
-        SourceItemInterfaceFactory $sourceItemFactory,
-        SourceItemsSaveInterface $sourceItemsSaveInterface
-    )
-    {
-        $this->appState = $appState;
-        $this->productInterfaceFactory = $productInterfaceFactory;
-        $this->productRepository = $productRepository;
-        $this->eavSetup = $eavSetup;
-        $this->categoryLink = $categoryLink;
-        $this->storeManager = $storeManager;
-        $this->sourceItemFactory = $sourceItemFactory;
-        $this->sourceItemsSaveInterface = $sourceItemsSaveInterface;
+        protected State $appState,
+        protected ProductInterfaceFactory $productInterfaceFactory,
+        protected ProductRepositoryInterface $productRepository,
+        protected EavSetup $eavSetup,
+        protected CategoryLinkManagementInterface $categoryLink,
+        protected StoreManagerInterface $storeManager,
+        protected SourceItemInterfaceFactory $sourceItemFactory,
+        protected SourceItemsSaveInterface $sourceItemsSaveInterface
+    ) {
     }
 
-    public static function getDependencies()
+    /**
+     * @return array
+     */
+    public static function getDependencies(): array
     {
         return [];
     }
 
-    public function getAliases()
+    /**
+     * @return array
+     */
+    public function getAliases(): array
     {
         return [];
     }
 
-    public function apply()
+    /**
+     * @return void
+     */
+    public function apply(): void
     {
         $this->appState->emulateAreaCode('adminhtml', [$this, 'execute']);
     }
 
+    /**
+     * @return void
+     */
     public function execute(): void
     {
         $product = $this->productInterfaceFactory->create();
