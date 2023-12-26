@@ -19,11 +19,6 @@ use Magento\Store\Model\StoreManagerInterface;
 class CreateNewProduct implements DataPatchInterface
 {
     /**
-     * @var array
-     */
-    protected array $sourceItems = [];
-
-    /**
      * @param State $appState
      * @param ProductInterfaceFactory $productInterfaceFactory
      * @param ProductRepositoryInterface $productRepository
@@ -32,6 +27,7 @@ class CreateNewProduct implements DataPatchInterface
      * @param StoreManagerInterface $storeManager
      * @param SourceItemInterfaceFactory $sourceItemFactory
      * @param SourceItemsSaveInterface $sourceItemsSaveInterface
+     * @param array $sourceItems
      */
     public function __construct(
         protected State $appState,
@@ -41,7 +37,8 @@ class CreateNewProduct implements DataPatchInterface
         protected CategoryLinkManagementInterface $categoryLink,
         protected StoreManagerInterface $storeManager,
         protected SourceItemInterfaceFactory $sourceItemFactory,
-        protected SourceItemsSaveInterface $sourceItemsSaveInterface
+        protected SourceItemsSaveInterface $sourceItemsSaveInterface,
+        protected array $sourceItems = []
     ) {
     }
 
@@ -75,7 +72,6 @@ class CreateNewProduct implements DataPatchInterface
     public function execute(): void
     {
         $product = $this->productInterfaceFactory->create();
-
         if($product->getIdBySky('test-1')) {
             return;
         }
